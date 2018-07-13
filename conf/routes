@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+
+# Account
+
+#Get the account balance
+GET     /account/:account_number/balance                    controllers.AccountController.getBalance(account_number: Int)
+#Deposit
+POST    /account/:account_number/deposit                    controllers.AccountController.deposit(account_number: Int)
+#Withdraw
+POST    /account/:account_number/withdraw                   controllers.AccountController.withdraw(account_number: Int)
+
