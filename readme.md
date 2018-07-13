@@ -13,7 +13,7 @@ This application is built on The Play framework, which requires the following in
 
 ##### The application  also requires a MYSQL database #####
 
-create a database with named tala_test and run this SQL query to create the table.
+create a database with named tala_test and run this SQL query to create the tables and insert the data.
 
 ```
 CREATE TABLE `accounts` (
