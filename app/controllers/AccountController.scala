@@ -41,7 +41,7 @@ class AccountController @Inject()(cc: ControllerComponents, Transaction: Transac
       val transaction = postData(resource.amount)
       if (transaction.amount > maxDepositPerTransaction) {
 
-        val msg = "You cannot deposit more than  KES" + maxDepositPerTransaction.toString() + " at once"
+        val msg = "You cannot deposit more than  KES " + maxDepositPerTransaction.toString() + " at once"
         val response: JsValue = Json.obj(
           "success" -> false,
           "message" -> msg ,
@@ -59,7 +59,7 @@ class AccountController @Inject()(cc: ControllerComponents, Transaction: Transac
         Forbidden(response)
 
       } else if (Transaction.getTotalTransactionsByDate("deposit", LocalDate.now(), account_number) >= dailyDepositLimit) {
-        val msg = "You cannot deposit more than  KES" + dailyDepositLimit.toString() + " in a day"
+        val msg = "You cannot deposit more than  KES " + dailyDepositLimit.toString() + " in a day"
 
         val response: JsValue = Json.obj(
           "success" -> false,
@@ -95,7 +95,7 @@ class AccountController @Inject()(cc: ControllerComponents, Transaction: Transac
       val currentBalance = Transaction.getAccountBalance(account_number)
       if (transaction.amount > maxWithdrawalLimit) {
         Forbidden(Json.obj("msg" -> "Exceeded Maximum Withdrawal Per Transaction"))
-        val msg = "You cannot withdraw more than  KES" + maxWithdrawalLimit.toString() + " at once"
+        val msg = "You cannot withdraw more than  KES " + maxWithdrawalLimit.toString() + " at once"
 
         val response: JsValue = Json.obj(
           "success" -> false,
@@ -117,7 +117,7 @@ class AccountController @Inject()(cc: ControllerComponents, Transaction: Transac
       }
       else if (Transaction.getTotalTransactionsByDate("withdrawal", LocalDate.now(), account_number) + transaction.amount >= dailyWithdrawalLimit) {
         Forbidden(Json.obj("msg" -> "Exceeded Maximum  Withdrawal for Today"))
-        val msg = "You cannot withdraw more than  KES" + dailyWithdrawalLimit.toString() + " in a day"
+        val msg = "You cannot withdraw more than  KES " + dailyWithdrawalLimit.toString() + " in a day"
 
         val response: JsValue = Json.obj(
           "success" -> false,

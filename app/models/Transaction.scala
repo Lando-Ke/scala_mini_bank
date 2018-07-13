@@ -1,7 +1,6 @@
 package models
 
 import java.time.LocalDate
-
 import anorm._
 import javax.inject.{Inject, Singleton}
 import play.api.db.Database
@@ -12,17 +11,18 @@ import play.api.db.Database
 class Transaction @Inject()(db: Database) {
 
 
-  def getTransactionCountByDate(transactionType: String, transactionDate: LocalDate, accountNumber: Int): Int = {
-    db.withConnection { implicit c =>
-      val result: Int = SQL(
+  def getTransactionCountByDate(transactionType: String, transactionDate: LocalDate, accountNumber: Int): Int = db.withConnection { implicit c =>
+
+
+    val result: Int = SQL(
+      """
+          SELECT COALESCE(count(*),0) as total_count FROM transactions  WHERE type={transactionType}
+          AND account_number ={accountNumber}
+          AND DATE(created_at) ={transactionDate}
+
         """
-            SELECT COALESCE(count(*),0) as total_count FROM transactions  WHERE type={transactionType}
-            AND account_number ={accountNumber}
-            AND created_at={transactionDate}
-          """
-      ).on('transactionType -> transactionType, 'transactionDate -> transactionDate.toString, 'accountNumber ->accountNumber).as(SqlParser.int("total_count").single)
-      result
-    }
+    ).on('transactionType -> transactionType, 'transactionDate -> transactionDate.toString, 'accountNumber ->accountNumber ).as(SqlParser.int("total_count").single)
+    result
   }
 
   def getAccountBalance(accountNumber: Int) : Double = {
@@ -43,7 +43,7 @@ class Transaction @Inject()(db: Database) {
         """
             SELECT COALESCE(sum(amount), 0) as total FROM transactions WHERE type={transactionType}
             AND account_number = {accountNumber}
-            AND created_at={transactionDate}
+            AND DATE(created_at)={transactionDate}
           """
       ).on('transactionType -> transactionType, 'transactionDate -> transactionDate.toString, 'accountNumber ->accountNumber).as(SqlParser.double("total").single)
       result
