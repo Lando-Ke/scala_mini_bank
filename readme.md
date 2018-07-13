@@ -35,9 +35,9 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 ```
-INSERT INTO `accounts` (`id`, `account_number`, `balance`, `created_at`)
+INSERT INTO `accounts` (`id`, `account_number`, `balance`)
 VALUES
-	(1,515276006,500,'2018-07-13 00:17:20');
+	(1,515276006,500);
 
 ```
 
@@ -55,11 +55,11 @@ The web service will run on  http://localhost:9000/
 Make a GET request to ``/account/51527606/balance`` to get the current account balance. This should return data in the format below
 
 ```
-{
-	"success": true,
-	"message": "Current account balance fetched successfully.",
-	"balance": 3000
-}
+ {
+    "success": true,
+    "message": "Account balance retrieved successfully.",
+    "balance": 24870
+ }
 ```  
 --
 ######MAKE A DEPOSIT######
@@ -74,9 +74,11 @@ A sample response to the deposit request is shown below.
 
 ```
 {
-	"success": true,
-	"message": "Deposit successful.",
-	"balance": 7000
+    "success": true,
+    "message": "Deposit successful.",
+    "transaction_type": "deposit",
+    "amount": 9002,
+    "balance": 15070
 }
 ``` 
 --
@@ -88,14 +90,15 @@ the Body of the request should have a JSON object with the field ``amount`` requ
 ```
 curl -H "Content-Type: application/json" -X POST -d '{"amount":1000}' http://localhost:9000/account/51527606/withdraw
 ```
-A sample response to the deposit request is shown below.
+A sample response to the withdrawal request is shown below.
 
 ```
 {
-	"success": true,
-	"balance": 4000,
-	"amount_withdrawn": 3000,
-	"message": "Withdrawal successful"
+    "success": true,
+    "message": "Withdrawal successful",
+    "transaction_type": "withdrawal",
+    "amount": 9002,
+    "balance": 6068
 }
 ```
 Below is a sample error response 

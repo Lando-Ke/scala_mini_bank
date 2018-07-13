@@ -3,9 +3,6 @@ package controllers
 import javax.inject.{Inject, Singleton}
 import models.Transaction
 import java.time.LocalDate
-
-
-import play.api.Play.current
 import play.api.libs.json._
 import play.api._
 import play.api.mvc._
@@ -79,7 +76,8 @@ class AccountController @Inject()(cc: ControllerComponents, Transaction: Transac
         val response: JsValue = Json.obj(
           "success" -> true,
           "message" -> msg,
-          "amount_deposited" -> transaction.amount,
+          "transaction_type" -> "deposit",
+          "amount" -> transaction.amount,
           "balance" -> newBalance
         )
         Ok(response)
@@ -145,9 +143,10 @@ class AccountController @Inject()(cc: ControllerComponents, Transaction: Transac
 
         val response: JsValue = Json.obj(
           "success" -> true,
-          "balance" -> newBalance,
-          "amount_withdrawn" -> transaction.amount,
-          "message" -> msg
+          "message" -> msg,
+          "transaction_type" -> "withdrawal",
+          "amount" -> transaction.amount,
+          "balance" -> newBalance
         )
 
         Ok(response)

@@ -1,12 +1,10 @@
 package models
 
-import javax.inject.Inject
-import anorm._
-import javax.inject.Singleton
-import play.api.db.Database
 import java.time.LocalDate
 
-import akka.stream.scaladsl.Balance
+import anorm._
+import javax.inject.{Inject, Singleton}
+import play.api.db.Database
 
 
 
